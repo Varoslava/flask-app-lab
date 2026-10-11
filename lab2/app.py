@@ -57,7 +57,7 @@ portfolio = {
         }
     ],
     "github": "https://github.com/Varoslava",
-    "email": ""
+    "email": "yaroslava-ivanna.zorii.24@pnu.edu.ua"
 }
 
 
