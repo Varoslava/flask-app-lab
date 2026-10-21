@@ -31,36 +31,22 @@
 
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ url_for('resume') }}#about">
-                            Про мене
+                           href="{{ url_for('home') }}">
+                            Homepage
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ url_for('resume') }}#education">
-                            Освіта
+                           href="{{ url_for('users.greetings', name='John') }}">
+                            Користувачі
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ url_for('resume') }}#skills">
-                            Навички
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="{{ url_for('resume') }}#technologies">
-                            Технології
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="{{ url_for('resume') }}#projects">
-                            Проєкти
+                           href="{{ url_for('products.product_list') }}">
+                            Товари
                         </a>
                     </li>
 
@@ -75,4 +61,21 @@
             </div>
         </div>
     </nav>
+
+    {% if request.endpoint == 'resume' %}
+    <nav class="resume-subnav" aria-label="Розділи портфоліо">
+        <div class="container">
+            <div class="resume-subnav-links">
+
+                <a href="#about">Про мене</a>
+                <a href="#education">Освіта</a>
+                <a href="#skills">Навички</a>
+                <a href="#technologies">Технології</a>
+                <a href="#projects">Проєкти</a>
+
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
 </header>
