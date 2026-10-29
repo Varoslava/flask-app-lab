@@ -1,0 +1,186 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero-section" id="home">
+    <div class="container">
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-7 order-2 order-lg-1">
+                <p class="eyebrow">ПЕРСОНАЛЬНЕ ПОРТФОЛІО</p>
+
+                <h1 class="hero-title">
+                    Привіт! Я<br>
+                    <span>Ярослава-Іванна</span>
+                </h1>
+
+                <p class="hero-subtitle">{{ person.role }}</p>
+
+                <p class="hero-description">
+                    Вітаю на моєму сайті-портфоліо!
+                    Тут ви можете дізнатися більше про мене,
+                    мою освіту, навички та навчальні проєкти.
+                </p>
+
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="#about" class="btn btn-brown">
+                        Про мене
+                    </a>
+
+                    <a href="{{ url_for('contacts') }}"
+                       class="btn btn-outline-brown">
+                        Зв'язатися
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-5 order-1 order-lg-2 text-center">
+                <div class="photo-wrapper">
+                    <img
+                        src="{{ url_for('static', filename='images/profile.jpg') }}"
+                        alt="Фото Зорій Ярослави-Іванни"
+                        class="profile-photo img-fluid"
+                    >
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="content-section" id="about">
+    <div class="container">
+        <div class="section-heading">
+            <p class="eyebrow">ЗНАЙОМСТВО</p>
+            <h2>Про мене</h2>
+        </div>
+
+        <div class="info-card">
+            <p>{{ person.about }}</p>
+            <p class="mb-0">
+                Моя мета — розвиватися у сфері IT,
+                вдосконалювати знання та отримувати
+                практичний досвід у розробці програмного
+                забезпечення.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="content-section section-alt" id="education">
+    <div class="container">
+        <div class="section-heading">
+            <p class="eyebrow">НАВЧАННЯ</p>
+            <h2>Освіта</h2>
+        </div>
+
+        <div class="info-card">
+            <span class="small-label">{{ person.course }}</span>
+
+            <h3>{{ person.university }}</h3>
+
+            <p>
+                Спеціальність:
+                <strong>{{ person.specialty }}</strong>
+            </p>
+
+            <p class="mb-0">
+                Група: <strong>{{ person.group }}</strong>
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="content-section" id="skills">
+    <div class="container">
+        <div class="section-heading">
+            <p class="eyebrow">МОЇ МОЖЛИВОСТІ</p>
+            <h2>Навички</h2>
+        </div>
+
+        <div class="row g-3">
+            {% for skill in person.skills %}
+            <div class="col-md-6 col-lg-4">
+                <div class="skill-card h-100">
+                    <span class="skill-icon">✓</span>
+                    <span>{{ skill }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="content-section section-alt" id="technologies">
+    <div class="container">
+        <div class="section-heading">
+            <p class="eyebrow">ІНСТРУМЕНТИ</p>
+            <h2>Технології</h2>
+        </div>
+
+        <p class="section-description">
+            Інструменти та технології, з якими я
+            працюю під час навчання.
+        </p>
+
+        <div class="technology-list">
+            {% for technology in person.technologies %}
+            <span class="technology-badge">
+                {{ technology }}
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="content-section" id="projects">
+    <div class="container">
+        <div class="section-heading">
+            <p class="eyebrow">ПРАКТИЧНИЙ ДОСВІД</p>
+            <h2>Мої проєкти</h2>
+        </div>
+
+        <p class="section-description">
+            Мій досвід наразі складається переважно
+            з навчальних проєктів.
+        </p>
+
+        <div class="row g-4">
+            {% for project in person.projects %}
+            <div class="col-md-6">
+                <article class="project-card h-100">
+                    <span class="project-number">
+                        0{{ loop.index }}
+                    </span>
+
+                    <h3>{{ project.name }}</h3>
+                    <p>{{ project.description }}</p>
+
+                    <div class="project-tech">
+                        {{ project.stack }}
+                    </div>
+                </article>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="contact-banner">
+    <div class="container text-center">
+        <h2>Будемо на зв'язку!</h2>
+
+        <p>
+            Якщо у вас є запитання або пропозиції,
+            перейдіть на сторінку контактів.
+        </p>
+
+        <a href="{{ url_for('contacts') }}"
+           class="btn btn-light-custom">
+            Мої контакти
+        </a>
+    </div>
+</section>
+
+{% endblock %}
