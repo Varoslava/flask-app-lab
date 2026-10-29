@@ -1,0 +1,32 @@
+
+<footer class="site-footer">
+    <div class="container">
+
+        <div class="row align-items-center g-3">
+            <div class="col-md-7 text-center text-md-start">
+                <p class="footer-name">
+                    {{ person.short_name }}
+                </p>
+
+                <p class="footer-text mb-0">
+                    {{ person.specialty }} · {{ person.group }}
+                </p>
+            </div>
+
+            <div class="col-md-5 text-center text-md-end">
+                <a href="{{ url_for('resume') }}">Резюме</a>
+                <a href="{{ url_for('contacts') }}">Контакти</a>
+                <a href="{{ person.github }}"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    GitHub
+                </a>
+            </div>
+        </div>
+
+        <div class="footer-bottom text-center">
+            Лабораторна робота №4 · Персональне портфоліо
+        </div>
+
+    </div>
+</footer>

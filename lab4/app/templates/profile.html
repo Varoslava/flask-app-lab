@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Мій профіль{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow-sm border-0 rounded-4 p-4">
+                <h1 class="text-center mb-4">Мій профіль</h1>
+
+                <div class="text-center mb-4">
+                    <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center mb-3"
+                         style="width: 90px; height: 90px;">
+                        <span class="fs-1">👤</span>
+                    </div>
+
+                    <h3>{{ username }}</h3>
+                    <p class="text-muted">Ви успішно увійшли в систему</p>
+                </div>
+
+                <hr>
+
+                <h4 class="mb-3">Налаштування оформлення</h4>
+
+                <p>
+                    Поточна тема:
+                    <strong>
+                        {% if theme == "dark" %}
+                            Темна
+                        {% else %}
+                            Світла
+                        {% endif %}
+                    </strong>
+                </p>
+
+                <div class="d-flex flex-wrap gap-2 mb-4">
+                    <a href="{{ url_for('users.set_theme', theme='light') }}"
+                       class="btn btn-brown">
+                        Світла тема
+                    </a>
+
+                    <a href="{{ url_for('users.set_theme', theme='dark') }}"
+                       class="btn btn-outline-brown">
+                        Темна тема
+                    </a>
+                </div>
+
+                <hr>
+
+                <h4 class="mb-3">Додати cookie</h4>
+
+                <form method="POST" action="{{ url_for('users.add_cookie') }}" class="mb-4">
+                    <div class="mb-3">
+                        <label for="key" class="form-label">Ключ</label>
+                        <input type="text" id="key" name="key" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="value" class="form-label">Значення</label>
+                        <input type="text" id="value" name="value" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="max_age" class="form-label">Термін дії (секунди)</label>
+                        <input type="number" id="max_age" name="max_age" class="form-control" value="3600" min="1" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-brown">Додати cookie</button>
+                </form>
+
+                <hr>
+
+                <h4 class="mb-3">Збережені cookies</h4>
+
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered profile-cookies-table">
+                        <thead>
+                            <tr>
+                                <th>Ключ</th>
+                                <th>Значення</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, value in cookies %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>{{ value }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="2">Cookies відсутні.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4 class="mb-3">Видалити cookie</h4>
+
+                <form method="POST" action="{{ url_for('users.delete_cookie') }}" class="mb-4">
+                    <div class="mb-3">
+                        <label for="delete_key" class="form-label">Ключ cookie</label>
+                        <input type="text" id="delete_key" name="key" class="form-control"
+                            placeholder="Введіть ключ або __all__ для видалення всіх" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-outline-danger">Видалити cookie</button>
+                </form>
+
+                <div class="d-grid">
+                    <a href="{{ url_for('users.logout') }}"
+                       class="btn btn-outline-danger">
+                        Вийти із системи
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
