@@ -1,5 +1,8 @@
-from flask import render_template, request
+import logging
+from pathlib import Path
+from flask import render_template, request, redirect, url_for, flash
 from app import app
+from app.forms import ContactForm
 
 portfolio = {
     "name": "Зорій Ярослава-Іванна Василівна",
@@ -58,6 +61,23 @@ portfolio = {
     "email": "yaroslava-ivanna.zorii.24@pnu.edu.ua"
 }
 
+log_dir = Path(app.root_path).parent / "logs"
+log_dir.mkdir(exist_ok=True)
+
+contact_logger = logging.getLogger("contact_messages")
+contact_logger.setLevel(logging.INFO)
+contact_logger.propagate = False
+
+if not contact_logger.handlers:
+    handler = logging.FileHandler(
+        log_dir / "contacts.log",
+        encoding="utf-8"
+    )
+    handler.setFormatter(
+        logging.Formatter("%(asctime)s - %(message)s")
+    )
+    contact_logger.addHandler(handler)
+
 @app.route("/")
 def resume():
     return render_template(
@@ -69,13 +89,28 @@ def resume():
 
 @app.route("/contacts", methods=["GET", "POST"])
 def contacts():
-    submitted = request.method == "POST"
+    form = ContactForm()
+
+    if form.validate_on_submit():
+        contact_logger.info(
+            "Name: %s | Email: %s | Subject: %s | Message: %s",
+            form.name.data,
+            form.email.data,
+            form.subject.data,
+            form.message.data
+        )
+
+        flash("Ваше повідомлення успішно надіслано!", "success")
+        return redirect(url_for("contacts"))
+
+    if request.method == "POST":
+        flash("Не вдалося надіслати повідомлення. Перевірте правильність заповнення форми.", "danger")
 
     return render_template(
         "contacts.html",
         title="Контакти",
         person=portfolio,
-        submitted=submitted
+        form=form
     )
 
 
