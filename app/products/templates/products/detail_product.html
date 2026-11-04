@@ -16,6 +16,17 @@
                 <strong>ID:</strong> {{ product.id }}
             </p>
 
+            {% if product.image %}
+                <img
+                    src="{{ url_for('products.static', filename='uploads/' + product.image) }}"
+                    alt="{{ product.name }}"
+                    class="img-fluid mb-3"
+                    style="max-height: 300px; object-fit: contain;"
+                >
+            {% else %}
+                <p class="text-muted">Зображення відсутнє</p>
+            {% endif %}
+
             <p>
                 <strong>Назва:</strong> {{ product.name }}
             </p>
@@ -25,13 +36,57 @@
             </p>
 
             <p>
-                <strong>Ціна:</strong> ${{ product.price }}
+                <strong>Категорія:</strong>
+                {% set categories = {
+                    "electronics": "Електроніка",
+                    "clothing": "Одяг",
+                    "food": "Продукти",
+                    "other": "Інше"
+                } %}
+                {{ categories.get(product.category, product.category) }}
             </p>
 
-            <a href="{{ url_for('products.product_list') }}"
-               class="btn btn-brown">
-                Повернутися до списку
-            </a>
+            <p>
+                <strong>Ціна:</strong> ${{ "%.2f"|format(product.price) }}
+            </p>
+
+            <p>
+                <strong>Кількість:</strong> {{ product.quantity }} шт.
+            </p>
+
+            <p>
+                <strong>Дата створення:</strong> {{ product.created_at }}
+            </p>
+
+            <div class="d-flex gap-2 mt-4 flex-wrap">
+
+                <a
+                    href="{{ url_for('products.product_edit', product_id=product.id) }}"
+                    class="btn btn-brown"
+                >
+                    <i class="bi bi-pencil"></i> Редагувати
+                </a>
+
+                <form
+                    method="POST"
+                    action="{{ url_for('products.product_delete', product_id=product.id) }}"
+                    onsubmit="return confirm('Ви впевнені, що хочете видалити цей товар?');"
+                >
+                    {{ delete_form.hidden_tag() }}
+
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Видалити
+                    </button>
+                </form>
+
+                <a
+                    href="{{ url_for('products.product_list') }}"
+                    class="btn btn-brown"
+                >
+                    Повернутися до списку
+                </a>
+
+            </div>
 
         </div>
     </div>
