@@ -4,3 +4,5 @@ __pycache__/
 .env
 .flaskenv
 logs/
+instance/*.sqlite
+instance/*.db

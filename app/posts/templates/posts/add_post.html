@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "_macros.html" import render_field %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('posts.static', filename='css/posts.css') }}">{% endblock %}
+{% block content %}
+<section class="container py-5 posts-page">
+    <div class="form-card">
+        <h1 class="mb-4">{{ title }}</h1>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ render_field(form.title) }}
+            {{ render_field(form.content, rows=7) }}
+            {{ render_field(form.publish_date) }}
+            {{ render_field(form.category) }}
+            <div class="form-check mb-3">
+                {{ form.enabled(class="form-check-input") }}
+                {{ form.enabled.label(class="form-check-label") }}
+            </div>
+            {{ form.submit(class="btn btn-brown") }}
+            <a href="{{ url_for('posts.all_posts') }}" class="btn btn-outline-brown">Скасувати</a>
+        </form>
+    </div>
+</section>
+{% endblock %}

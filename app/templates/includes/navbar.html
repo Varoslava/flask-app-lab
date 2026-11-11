@@ -1,9 +1,8 @@
-
 <header class="site-header sticky-top">
     <nav class="navbar navbar-expand-lg">
         <div class="container">
 
-            <a class="navbar-brand" href="{{ url_for('resume') }}">
+            <a class="navbar-brand" href="{{ url_for('main.resume') }}">
                 YZ<span>.</span>
             </a>
 
@@ -20,17 +19,16 @@
             </button>
 
             <div class="collapse navbar-collapse" id="mainMenu">
-                
                 <ul class="navbar-nav ms-auto align-items-lg-center">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('resume') }}">
+                        <a class="nav-link" href="{{ url_for('main.resume') }}">
                             Головна
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('home') }}">
+                        <a class="nav-link" href="{{ url_for('main.home') }}">
                             Homepage
                         </a>
                     </li>
@@ -48,16 +46,23 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('contacts') }}">
+                        <a class="nav-link" href="{{ url_for('posts.all_posts') }}">
+                            Дописи
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.contacts') }}">
                             Контакти
                         </a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('users.profile') }}">
                             Мій профіль
                         </a>
                     </li>
+
                     {% if session.get('username') %}
                         <li class="nav-item">
                             <a class="nav-link nav-contact" href="{{ url_for('users.logout') }}">
@@ -77,17 +82,15 @@
         </div>
     </nav>
 
-    {% if request.endpoint == 'resume' %}
+    {% if request.endpoint == 'main.resume' %}
     <nav class="resume-subnav" aria-label="Розділи портфоліо">
         <div class="container">
             <div class="resume-subnav-links">
-
                 <a href="#about">Про мене</a>
                 <a href="#education">Освіта</a>
                 <a href="#skills">Навички</a>
                 <a href="#technologies">Технології</a>
                 <a href="#projects">Проєкти</a>
-
             </div>
         </div>
     </nav>

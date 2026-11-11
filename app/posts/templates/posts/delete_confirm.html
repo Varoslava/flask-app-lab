@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="container py-5 posts-page">
+    <div class="form-card text-center">
+        <h1>Видалити пост?</h1>
+        <p>Ви дійсно хочете видалити пост <strong>«{{ post.title }}»</strong>?</p>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.submit(class="btn btn-danger") }}
+            <a href="{{ url_for('posts.detail_post', id=post.id) }}" class="btn btn-outline-brown">Скасувати</a>
+        </form>
+    </div>
+</section>
+{% endblock %}
