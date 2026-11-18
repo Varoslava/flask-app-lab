@@ -9,4 +9,5 @@ products_bp = Blueprint(
     static_url_path="/static"
 )
 
+from app.products.models import Product
 from app.products import views
