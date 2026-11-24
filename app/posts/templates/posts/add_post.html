@@ -11,6 +11,8 @@
             {{ render_field(form.content, rows=7) }}
             {{ render_field(form.publish_date) }}
             {{ render_field(form.category) }}
+            {{ render_field(form.user_id) }}
+            {{ render_field(form.tags) }}
             <div class="form-check mb-3">
                 {{ form.enabled(class="form-check-input") }}
                 {{ form.enabled.label(class="form-check-label") }}

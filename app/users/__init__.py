@@ -7,4 +7,5 @@ users_bp = Blueprint(
     template_folder="templates"
 )
 
+from app.users.models import User
 from app.users import views

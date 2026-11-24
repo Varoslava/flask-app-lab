@@ -10,6 +10,8 @@ def create_app(config_name="development"):
 
     Path(app.instance_path).mkdir(parents=True, exist_ok=True)
 
+    app.config["SQLALCHEMY_ECHO"] = False
+
     db.init_app(app)
     migrate.init_app(app, db)
 

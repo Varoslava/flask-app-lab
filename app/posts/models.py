@@ -1,6 +1,26 @@
 from datetime import datetime
-from sqlalchemy.orm import Mapped, mapped_column
+
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from app.extensions import db
+
+
+post_tags = db.Table(
+    "post_tags",
+    db.Column(
+        "post_id",
+        db.Integer,
+        db.ForeignKey("post.id"),
+        primary_key=True
+    ),
+    db.Column(
+        "tag_id",
+        db.Integer,
+        db.ForeignKey("tags.id"),
+        primary_key=True
+    )
+)
+
 
 class Post(db.Model):
     id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
@@ -21,11 +41,41 @@ class Post(db.Model):
         nullable=False,
         default=True
     )
-    author: Mapped[str] = mapped_column(
-        db.String(20),
-        nullable=False,
-        default="Anonymous"
+    user_id: Mapped[int | None] = mapped_column(
+        db.ForeignKey("users.id"),
+        nullable=True
+    )
+
+    user: Mapped["User | None"] = relationship(
+        "User",
+        back_populates="posts"
+    )
+
+    tags: Mapped[list["Tag"]] = relationship(
+        "Tag",
+        secondary=post_tags,
+        back_populates="posts"
     )
 
     def __repr__(self):
         return f"<Post {self.id}: {self.title}>"
+
+
+class Tag(db.Model):
+    __tablename__ = "tags"
+
+    id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(
+        db.String(50),
+        unique=True,
+        nullable=False
+    )
+
+    posts: Mapped[list["Post"]] = relationship(
+        "Post",
+        secondary=post_tags,
+        back_populates="tags"
+    )
+
+    def __repr__(self):
+        return f"<Tag {self.name}>"

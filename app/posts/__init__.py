@@ -9,4 +9,6 @@ posts_bp = Blueprint(
     static_url_path="/static"
 )
 
+from app.posts.models import Post
+from app.users.models import User
 from app.posts import views
