@@ -1,7 +1,9 @@
 import unittest
+
 from app import create_app
 from app.extensions import db
 from app.posts.models import Post
+from app.users.models import User
 
 
 class PostsTestCase(unittest.TestCase):
@@ -11,11 +13,21 @@ class PostsTestCase(unittest.TestCase):
         self.app_context.push()
         db.create_all()
         self.client = self.app.test_client()
+
+        user = User(
+            username="testauthor",
+            email="author@example.com"
+        )
+        user.set_password("TestPassword123")
+        db.session.add(user)
+        db.session.commit()
+        self.user_id = user.id
+
         post = Post(
             title="Перший тестовий пост",
             content="Текст для перевірки роботи постів.",
             category="news",
-            author="Test Author"
+            user_id=user.id
         )
         db.session.add(post)
         db.session.commit()
@@ -43,26 +55,42 @@ class PostsTestCase(unittest.TestCase):
             "publish_date": "2026-11-11T12:30",
             "category": "tech",
             "enabled": "y",
+            "user_id": str(self.user_id),
             "submit": "Зберегти"
         }, follow_redirects=True)
+
         self.assertEqual(response.status_code, 200)
-        self.assertIsNotNone(db.session.scalar(db.select(Post).where(Post.title == "Новий пост")))
+        post = db.session.scalar(
+            db.select(Post).where(Post.title == "Новий пост")
+        )
+        self.assertIsNotNone(post)
 
     def test_update_post(self):
-        response = self.client.post(f"/post/{self.post_id}/update", data={
-            "title": "Оновлений заголовок",
-            "content": "Оновлений текст поста.",
-            "publish_date": "2026-11-11T13:00",
-            "category": "publication",
-            "enabled": "y",
-            "submit": "Зберегти зміни"
-        }, follow_redirects=True)
+        response = self.client.post(
+            f"/post/{self.post_id}/update",
+            data={
+                "title": "Оновлений заголовок",
+                "content": "Оновлений текст поста.",
+                "publish_date": "2026-11-11T13:00",
+                "category": "publication",
+                "enabled": "y",
+                "user_id": str(self.user_id),
+                "submit": "Зберегти зміни"
+            },
+            follow_redirects=True
+        )
+
         self.assertEqual(response.status_code, 200)
         post = db.session.get(Post, self.post_id)
         self.assertEqual(post.title, "Оновлений заголовок")
 
     def test_delete_post(self):
-        response = self.client.post(f"/post/{self.post_id}/delete", data={"submit": "Так, видалити пост"}, follow_redirects=True)
+        response = self.client.post(
+            f"/post/{self.post_id}/delete",
+            data={"submit": "Так, видалити пост"},
+            follow_redirects=True
+        )
+
         self.assertEqual(response.status_code, 200)
         self.assertIsNone(db.session.get(Post, self.post_id))
 

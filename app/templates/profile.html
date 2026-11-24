@@ -16,7 +16,21 @@
                     </div>
 
                     <h3>{{ username }}</h3>
+                    <p class="text-muted">{{ email }}</p>
                     <p class="text-muted">Ви успішно увійшли в систему</p>
+                </div>
+
+                <hr>
+
+                <div class="mb-4">
+                    <p>
+                        Кількість відвідувань профілю:
+                        <strong>{{ visit_count }}</strong>
+                    </p>
+
+                    <a href="{{ url_for('users.all_users') }}" class="btn btn-outline-brown">
+                        Переглянути всіх користувачів
+                    </a>
                 </div>
 
                 <hr>
@@ -102,18 +116,19 @@
                     <div class="mb-3">
                         <label for="delete_key" class="form-label">Ключ cookie</label>
                         <input type="text" id="delete_key" name="key" class="form-control"
-                            placeholder="Введіть ключ або __all__ для видалення всіх" required>
+                               placeholder="Введіть ключ або __all__ для видалення всіх" required>
                     </div>
 
-                    <button type="submit" class="btn btn-outline-danger">Видалити cookie</button>
+                    <button type="submit" class="btn btn-outline-danger">
+                        Видалити cookie
+                    </button>
                 </form>
 
-                <div class="d-grid">
-                    <a href="{{ url_for('users.logout') }}"
-                       class="btn btn-outline-danger">
+                <form method="POST" action="{{ url_for('users.logout') }}" class="d-grid">
+                    <button type="submit" class="btn btn-outline-danger">
                         Вийти із системи
-                    </a>
-                </div>
+                    </button>
+                </form>
             </div>
         </div>
     </div>

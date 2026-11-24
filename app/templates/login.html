@@ -10,26 +10,24 @@
                 <h1 class="text-center mb-4">Вхід у систему</h1>
 
                 <form method="POST" action="{{ url_for('users.login') }}">
+                    {{ form.hidden_tag() }}
+
                     <div class="mb-3">
-                        <label for="username" class="form-label">Логін</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="username"
-                            name="username"
-                            required
-                        >
+                        {{ form.username.label(class="form-label") }}
+                        {{ form.username(class="form-control", placeholder="Введіть логін або email") }}
+
+                        {% for error in form.username.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                        {% endfor %}
                     </div>
 
                     <div class="mb-4">
-                        <label for="password" class="form-label">Пароль</label>
-                        <input
-                            type="password"
-                            class="form-control"
-                            id="password"
-                            name="password"
-                            required
-                        >
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control", placeholder="Введіть пароль") }}
+
+                        {% for error in form.password.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                        {% endfor %}
                     </div>
 
                     <button type="submit" class="btn btn-brown w-100">
@@ -38,7 +36,8 @@
                 </form>
 
                 <p class="text-muted text-center mt-3 mb-0">
-                    Навчальна авторизація Flask
+                    Ще не маєте облікового запису?
+                    <a href="{{ url_for('users.register') }}">Зареєструватися</a>
                 </p>
             </div>
         </div>

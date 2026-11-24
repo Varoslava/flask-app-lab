@@ -1,12 +1,16 @@
 from pathlib import Path
 from flask import Flask, render_template
+
 from app.config import config_by_name
-from app.extensions import db, migrate
+from app.extensions import db, migrate, bcrypt, login_manager
 
 
 def create_app(config_name="development"):
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_object(config_by_name.get(config_name, config_by_name["development"]))
+
+    app.config.from_object(
+        config_by_name.get(config_name, config_by_name["development"])
+    )
 
     Path(app.instance_path).mkdir(parents=True, exist_ok=True)
 
@@ -14,6 +18,12 @@ def create_app(config_name="development"):
 
     db.init_app(app)
     migrate.init_app(app, db)
+    bcrypt.init_app(app)
+
+    login_manager.init_app(app)
+    login_manager.login_view = "users.login"
+    login_manager.login_message = "Спочатку увійдіть у систему."
+    login_manager.login_message_category = "warning"
 
     from app import views
     from app.users import users_bp
@@ -31,7 +41,10 @@ def create_app(config_name="development"):
 
     @app.errorhandler(404)
     def page_not_found(error):
-        return render_template("404.html", title="Сторінку не знайдено"), 404
+        return render_template(
+            "404.html",
+            title="Сторінку не знайдено"
+        ), 404
 
     @app.errorhandler(413)
     def request_entity_too_large(error):

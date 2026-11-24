@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Усі користувачі{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+    <div class="card shadow-sm border-0 rounded-4 p-4">
+        <h1 class="mb-3">Зареєстровані користувачі</h1>
+
+        <p class="text-muted">
+            Загальна кількість користувачів:
+            <strong>{{ users_count }}</strong>
+        </p>
+
+        {% if users %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Логін</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>Поки що немає зареєстрованих користувачів.</p>
+        {% endif %}
+
+        <div>
+            <a href="{{ url_for('users.profile') }}" class="btn btn-outline-brown">
+                Повернутися до профілю
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

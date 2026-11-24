@@ -1,7 +1,8 @@
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 from sqlalchemy import MetaData
-
 
 naming_convention = {
     "ix": "ix_%(column_0_label)s",
@@ -13,3 +14,5 @@ naming_convention = {
 
 db = SQLAlchemy(metadata=MetaData(naming_convention=naming_convention))
 migrate = Migrate()
+bcrypt = Bcrypt()
+login_manager = LoginManager()

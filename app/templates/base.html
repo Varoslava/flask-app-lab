@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk" data-theme="{% if session.get('username') %}{{ request.cookies.get('theme', 'light') }}{% else %}light{% endif %}">
+<html lang="uk" data-theme="{% if current_user.is_authenticated %}{{ request.cookies.get('theme', 'light') }}{% else %}light{% endif %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +18,7 @@
         rel="stylesheet"
         href="{{ url_for('static', filename='css/styles.css') }}"
     >
+
     {% block extra_css %}{% endblock %}
 </head>
 <body>

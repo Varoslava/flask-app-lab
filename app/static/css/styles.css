@@ -66,6 +66,12 @@ a:hover {
     color: var(--brown);
 }
 
+.navbar .nav-contact[type="submit"] {
+    border: none;
+    font: inherit;
+    cursor: pointer;
+}
+
 .navbar .nav-contact {
     background: var(--brown);
     color: white;
